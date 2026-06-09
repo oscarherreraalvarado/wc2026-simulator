@@ -3,10 +3,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import type { Profile, UserSession } from '@wc2026/shared-types';
-import { supabaseConfig } from '../config/supabase.config';
 import { SupabaseService } from '../supabase/supabase.service';
 import type { LoginDto } from './dto/login.dto';
 import type { RegisterDto } from './dto/register.dto';
@@ -20,20 +17,12 @@ interface ProfileRow {
 
 @Injectable()
 export class AuthService {
-  private readonly authClient: SupabaseClient;
-
-  constructor(
-    private readonly configService: ConfigService,
-    private readonly supabaseService: SupabaseService,
-  ) {
-    const url = this.configService.getOrThrow<string>(supabaseConfig.urlKey);
-    const anonKey = this.configService.getOrThrow<string>(supabaseConfig.anonKeyKey);
-    this.authClient = createClient(url, anonKey);
-  }
+  constructor(private readonly supabaseService: SupabaseService) {}
 
   /** Registra un usuario en Supabase Auth (trigger crea el perfil). */
   async register(dto: RegisterDto): Promise<UserSession> {
-    const { data, error } = await this.authClient.auth.signUp({
+    const authClient = this.supabaseService.getAuthClient();
+    const { data, error } = await authClient.auth.signUp({
       email: dto.email,
       password: dto.password,
       options: { data: { username: dto.username } },
@@ -59,7 +48,8 @@ export class AuthService {
 
   /** Inicia sesión con email y contraseña. */
   async login(dto: LoginDto): Promise<UserSession> {
-    const { data, error } = await this.authClient.auth.signInWithPassword({
+    const authClient = this.supabaseService.getAuthClient();
+    const { data, error } = await authClient.auth.signInWithPassword({
       email: dto.email,
       password: dto.password,
     });
