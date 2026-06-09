@@ -5,6 +5,7 @@ import configuration, { validationSchema } from './config/configuration';
 import { AuthModule } from './auth/auth.module';
 import { BracketModule } from './bracket/bracket.module';
 import { GroupsModule } from './groups/groups.module';
+import { HealthController } from './health.controller';
 import { LeaderboardModule } from './leaderboard/leaderboard.module';
 import { PredictionsModule } from './predictions/predictions.module';
 import { ScoringModule } from './scoring/scoring.module';
@@ -30,5 +31,6 @@ import { SupabaseModule } from './supabase/supabase.module';
     LeaderboardModule,
     ScoringModule,
   ],
+  controllers: [HealthController],
 })
 export class AppModule {}
