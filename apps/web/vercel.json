@@ -1,5 +1,3 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
-  "buildCommand": "pnpm --filter web build",
-  "outputDirectory": "apps/web/dist/web/browser"
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }

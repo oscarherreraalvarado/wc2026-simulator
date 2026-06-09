@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "prebuild": "pnpm --filter @wc2026/shared-types build && pnpm --filter @wc2026/tournament-logic build",
     "start": "ng serve",
     "build": "ng build",
     "lint": "ng lint"
