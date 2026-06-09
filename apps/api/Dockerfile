@@ -15,14 +15,14 @@ RUN pnpm --filter @wc2026/shared-types build \
  && pnpm --filter @wc2026/tournament-logic build \
  && pnpm --filter api build
 
+# Bundle de producción autocontenido (resuelve deps del workspace)
+RUN pnpm deploy --filter api --prod --legacy /prod/api
+
 FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
-COPY --from=builder /app/apps/api/dist ./dist
-COPY --from=builder /app/apps/api/package.json ./package.json
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/packages ./packages
+COPY --from=builder /prod/api ./
 
 EXPOSE 10000
 CMD ["node", "dist/main.js"]
