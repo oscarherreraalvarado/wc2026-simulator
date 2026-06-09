@@ -1,7 +1,7 @@
 import * as Joi from 'joi';
 
 export default () => ({
-  port: parseInt(process.env.API_PORT ?? '3600', 10),
+  port: parseInt(process.env.PORT ?? process.env.API_PORT ?? '3600', 10),
   corsOrigins: process.env.CORS_ORIGINS ?? 'http://localhost:4600',
   supabase: {
     url: process.env.SUPABASE_URL,
@@ -15,6 +15,7 @@ export default () => ({
 });
 
 export const validationSchema = Joi.object({
+  PORT: Joi.number().optional(),
   API_PORT: Joi.number().default(3600),
   CORS_ORIGINS: Joi.string().required(),
   SUPABASE_URL: Joi.string().uri().required(),
