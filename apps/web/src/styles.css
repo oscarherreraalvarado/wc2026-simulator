@@ -1,0 +1,103 @@
+:root {
+  --bg: #0a0e1a;
+  --surface: #111827;
+  --surface2: #1a2235;
+  --border: #1e2d45;
+  --accent: #f5c518;
+  --accent2: #00e5a0;
+  --text: #e8eaf0;
+  --muted: #6b7a99;
+  --win: #00e5a0;
+  --draw: #f5c518;
+  --loss: #ff4d6d;
+  --primary: var(--accent);
+  --primary-hover: #ffd700;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0 0 0.5rem;
+}
+
+p {
+  margin: 0;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--font-body);
+  transition: all 0.2s;
+}
+
+.btn:hover {
+  color: var(--text);
+  border-color: var(--muted);
+}
+
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #000;
+  font-weight: 700;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  color: #000;
+}
+
+.btn-secondary:hover {
+  border-color: var(--loss);
+  color: var(--loss);
+}
+
+.btn-sm {
+  padding: 0.25rem 0.65rem;
+  font-size: 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  opacity: 0.5;
+}

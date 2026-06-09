@@ -1,0 +1,27 @@
+{
+  "name": "wc2026-simulator",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev:api": "pnpm --filter api dev",
+    "dev:web": "pnpm --filter web start",
+    "dev:mobile": "cd apps/mobile && flutter run",
+    "build:all": "pnpm --filter api build && pnpm --filter web build",
+    "test:all": "pnpm --filter @wc2026/tournament-logic test && pnpm --filter api test",
+    "lint:all": "pnpm --filter api lint && pnpm --filter web lint",
+    "setup:env": "node scripts/setup-env.mjs",
+    "db:login": "node scripts/supabase.mjs login",
+    "db:link": "node scripts/supabase.mjs link",
+    "db:start": "node scripts/supabase.mjs start",
+    "db:stop": "node scripts/supabase.mjs stop",
+    "db:status": "node scripts/supabase.mjs status",
+    "db:reset": "node scripts/supabase.mjs db reset",
+    "db:migrate": "node scripts/supabase.mjs db push",
+    "db:types": "node scripts/supabase.mjs gen types typescript --linked > packages/shared-types/src/database.types.ts"
+  },
+  "devDependencies": {
+    "supabase": "^2.30.4"
+  }
+}
