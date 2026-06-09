@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import ws from 'ws';
 import { supabaseConfig } from '../config/supabase.config';
 
 @Injectable()
@@ -12,7 +13,15 @@ export class SupabaseService {
     const serviceRoleKey = this.configService.getOrThrow<string>(
       supabaseConfig.serviceRoleKeyKey,
     );
-    this.client = createClient(url, serviceRoleKey);
+    this.client = createClient(url, serviceRoleKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+      },
+      realtime: {
+        transport: ws as unknown as typeof WebSocket,
+      },
+    });
   }
 
   getClient(): SupabaseClient {
