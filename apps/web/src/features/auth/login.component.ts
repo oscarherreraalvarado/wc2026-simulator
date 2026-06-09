@@ -3,58 +3,132 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { AuthShellComponent } from '../../shared/auth-shell.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, AuthShellComponent],
   template: `
-    <main class="auth-page">
-      <form [formGroup]="form" (ngSubmit)="submit()">
-        <h1>Iniciar sesión</h1>
-        <label>
-          Email
-          <input type="email" formControlName="email" autocomplete="email" />
+    <app-auth-shell
+      title="Iniciar sesión"
+      subtitle="Entra para guardar predicciones y subir en el ranking."
+    >
+      <form class="auth-form" [formGroup]="form" (ngSubmit)="submit()">
+        <label class="field">
+          <span>Email</span>
+          <input
+            type="email"
+            formControlName="email"
+            autocomplete="email"
+            placeholder="tu@email.com"
+          />
         </label>
-        <label>
-          Contraseña
-          <input type="password" formControlName="password" autocomplete="current-password" />
+
+        <label class="field">
+          <span>Contraseña</span>
+          <input
+            type="password"
+            formControlName="password"
+            autocomplete="current-password"
+            placeholder="••••••••"
+          />
         </label>
+
         @if (error()) {
-          <p class="error">{{ error() }}</p>
+          <p class="form-error" role="alert">{{ error() }}</p>
         }
-        <button type="submit" class="btn btn-primary" [disabled]="form.invalid || loading()">
-          Entrar
+
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="form.invalid || loading()">
+          @if (loading()) {
+            Entrando…
+          } @else {
+            Entrar al simulador
+          }
         </button>
-        <p>¿No tienes cuenta? <a routerLink="/register">Regístrate</a></p>
+
+        <p class="form-footer">
+          ¿No tienes cuenta?
+          <a routerLink="/register">Crea una gratis</a>
+        </p>
       </form>
-    </main>
+    </app-auth-shell>
   `,
   styles: [
     `
-      .auth-page {
-        max-width: 400px;
-        margin: 3rem auto;
-        padding: 1rem;
-      }
-      form {
+      .auth-form {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: 1.1rem;
       }
-      label {
+
+      .field {
         display: flex;
         flex-direction: column;
-        gap: 0.35rem;
-        font-size: 0.9rem;
+        gap: 0.4rem;
       }
-      input {
-        padding: 0.5rem;
+
+      .field span {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .field input {
+        padding: 12px 14px;
         border: 1px solid var(--border);
-        border-radius: 6px;
+        border-radius: 8px;
+        background: var(--surface);
+        color: var(--text);
+        font-size: 15px;
+        font-family: var(--font-body);
+        transition: border-color 0.2s, box-shadow 0.2s;
       }
-      .error {
-        color: #b91c1c;
+
+      .field input::placeholder {
+        color: #4a5568;
+      }
+
+      .field input:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.12);
+      }
+
+      .btn-block {
+        width: 100%;
+        padding: 13px 20px;
+        margin-top: 0.25rem;
+        font-size: 14px;
+      }
+
+      .form-error {
+        padding: 10px 12px;
+        border-radius: 8px;
+        background: rgba(255, 77, 109, 0.1);
+        border: 1px solid rgba(255, 77, 109, 0.3);
+        color: var(--loss);
+        font-size: 13px;
+      }
+
+      .form-footer {
+        text-align: center;
+        font-size: 14px;
+        color: var(--muted);
+        margin-top: 0.5rem;
+      }
+
+      .form-footer a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        margin-left: 0.25rem;
+      }
+
+      .form-footer a:hover {
+        text-decoration: underline;
       }
     `,
   ],

@@ -8,7 +8,7 @@ import { AuthService } from '../core/services/auth.service';
   imports: [RouterLink, RouterLinkActive],
   template: `
     <nav class="navbar">
-      <a routerLink="/" class="brand">
+      <a [routerLink]="auth.isAuthenticated() ? '/simulator' : '/'" class="brand">
         <span class="trophy">⚽</span>
         <span class="brand-text">WC2026</span>
       </a>
@@ -19,7 +19,7 @@ import { AuthService } from '../core/services/auth.service';
           <span class="user">{{ auth.profile()?.username }}</span>
           <button type="button" class="btn-sm" (click)="logout()">Salir</button>
         } @else {
-          <a routerLink="/login" routerLinkActive="active">Login</a>
+          <a routerLink="/" routerLinkActive="active">Login</a>
         }
       </div>
     </nav>

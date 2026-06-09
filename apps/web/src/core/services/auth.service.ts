@@ -46,7 +46,7 @@ export class AuthService {
       // limpiar sesión local aunque falle el backend
     }
     this.clearSession();
-    await this.router.navigate(['/login']);
+    await this.router.navigate(['/']);
   }
 
   private persistSession(session: UserSession): void {

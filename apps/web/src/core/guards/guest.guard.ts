@@ -2,14 +2,14 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
-/** Redirige a login si no hay sesión activa. */
-export const authGuard: CanActivateFn = () => {
+/** Redirige al simulador si ya hay sesión activa. */
+export const guestGuard: CanActivateFn = () => {
   const auth = inject(AuthService);
   const router = inject(Router);
 
-  if (auth.isAuthenticated()) {
+  if (!auth.isAuthenticated()) {
     return true;
   }
 
-  return router.createUrlTree(['/']);
+  return router.createUrlTree(['/simulator']);
 };
